@@ -25,6 +25,25 @@ function renderType(type) {
   }
 }
 
+function renderUseTime(milliseconds) {
+  if (milliseconds) {
+    const time = parseInt(milliseconds) / 1000; // 转换为秒
+    let color = 'success';
+    if (time >= 101 && time < 300) {
+      color = 'orange';
+    } else if (time >= 300) {
+      color = 'error';
+    }
+    return (
+      <Label variant="soft" color={color}>
+        {' '}
+        {time.toFixed(0)} s{' '}
+      </Label>
+    );
+  }
+  return null;
+}
+
 export default function LogTableRow({ item, userIsAdmin }) {
   return (
     <>
@@ -53,6 +72,9 @@ export default function LogTableRow({ item, userIsAdmin }) {
               {item.model_name}
             </Label>
           )}
+        </TableCell>
+        <TableCell>
+          {renderUseTime(item.elapsed_time)}
         </TableCell>
         <TableCell>{item.prompt_tokens || ''}</TableCell>
         <TableCell>{item.completion_tokens || ''}</TableCell>
